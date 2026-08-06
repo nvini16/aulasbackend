@@ -1,67 +1,46 @@
-const express = require('express');
-const app = express();
-const porta = 3300
-const produtos = [
-    {id: 1, nome: "Teclado", valor: 129.99
-    },
+const express = require('express'); // importando o negocio do express
 
-    {id: 2, nome: "Monitor", valor: 300.00
-    }
-]
+const app = express(); // iniciar o negocio do servodor
 
-console.log(produtos[1].nome)
-console.log("=====================================================")
-produtos.push({id: 3, nome: "Sacola", valor: 1000.50
-})
-// console.log(produtos)
+const porta = 3300;
 
-
-for (let index = 0; index < produtos.length; index++) {
-    const produto = produtos[index]
-    
-    if(produto.id === 3) {
-        console.log(produto)
-    }
-    
-}
-
-// procurarProduto(3)
-
-function procurarProduto(id) {
-    for (let index = 0; index < produtos.length; index++) {
-        const produto = produtos[index]
-        
-        if(produto.id === id) {
-            console.log(produto)
-        }
-        
-    }
-}
-
-
-
-
-
-app.get('/test', (req, res) => {
-    res.send("Olá, mundo!")
+app.get('/', (req, res) => {
+    res.json({nome: "Ta rodando, fiote!"})
 })
 
-app.get('/produto/:id', (req, res) => {
-    if(!parseInt(req.params.id)) {
-        res.send("Valor do id deve ser numerico")
-    }
-    const id = parseInt(req.params.id);
-
-    procurarProduto(id)
-    res.send("Oiiiiiii")
+app.get('/turma', (req, res) => {
+    res.json({
+        sala: "3º ano B - Desenvolvimento de Sistemas",
+        escola: "E.E Marlene Leite da Silva",
+        periodo: "Técnico (PEI)",
+        totalAlunos: 24
+    })
 })
 
-// TECLADO
-app.get('/teclado', (req, res) => {
-    console.log(produtos[1].nome)
+//app.get('/')
 
+app.get('/lanche/:dia', (req, res) => {
+    const diaSemana = req.params.dia.toLowerCase();
+
+    if(diaSemana === "segunda") {
+        res.json({
+            prato: "Comer Marsali"
+        })
+    } else if(diaSemana === "sexta") {
+        res.json({
+            prato: "Comer Marsali sem Camisinha"
+        })
+    } else {
+        res.json({
+            prato: "Comer Mrsali sem Lumbrificante"
+        })
+    }
+})
+
+app.get('/pagina', (req, res) => {
+    console.log("<h1>Olá, mundo</h1>")
 })
 
 app.listen(porta, () => {
-    console.log("Servidor iniciado na porta: " + porta)
-} )
+    console.log("Servidor inicializado na porta: " + porta);
+})
